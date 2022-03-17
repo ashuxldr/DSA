@@ -43,7 +43,30 @@ public:
         curr->next = newNode;
     }
 
-    bool detectLoop()
+    void removeLoop(Node* slow, Node* head){
+        Node *ptr1 = slow;
+        Node *ptr2 = slow;
+        int k=1;
+        while(ptr1->next != ptr2){
+            ptr1= ptr1->next;
+            k++;
+        }
+        ptr1 = head;
+        ptr2 = head;
+        while(k--)
+        ptr2 = ptr2->next;
+     
+        while (ptr2 != ptr1) {
+            ptr1 = ptr1->next;
+            ptr2 = ptr2->next;
+        }
+        while (ptr2->next != ptr1)
+        ptr2 = ptr2->next;
+
+        ptr2->next = NULL;
+    }
+
+    bool detectAndRemoveLoop()
     {
         Node *slow = head;
         Node *fast = head;
@@ -51,8 +74,10 @@ public:
         {
             slow = slow->next;
             fast = fast->next->next;
-            if (slow == fast)
+            if (slow == fast){
+                removeLoop(slow,head);
                 return 1;
+            }
         }
         return 0;
     }
@@ -92,8 +117,8 @@ int main()
     ll.insertNodeAtTail(7);
     ll.insertNodeAtTail(8);
     ll.createLoop();
-    cout << ll.detectLoop();
-    // ll.display();
+    ll.detectAndRemoveLoop();
+    ll.display();
     return 0;
     
 }
