@@ -66,21 +66,28 @@ public:
         ptr2->next = NULL;
     }
 
-    bool detectAndRemoveLoop()
-    {
-        Node *slow = head;
-        Node *fast = head;
-        while (slow && fast && fast->next)
-        {
-            slow = slow->next;
-            fast = fast->next->next;
-            if (slow == fast){
-                removeLoop(slow,head);
-                return 1;
-            }
-        }
-        return 0;
+    Node* detectAndRemoveLoop()
+{
+    if (head == NULL || head->next == NULL)
+        return NULL;
+    Node *slow = head, *fast = head;
+    slow = slow->next;
+    fast = fast->next->next;
+    while (fast && fast->next) {
+        if (slow == fast)
+            break;
+        slow = slow->next;
+        fast = fast->next->next;
     }
+    if (slow != fast)
+        return NULL;
+    slow = head;
+    while (slow != fast) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
+}
     void createLoop()
     {
         Node *curr = head;
@@ -117,8 +124,11 @@ int main()
     ll.insertNodeAtTail(7);
     ll.insertNodeAtTail(8);
     ll.createLoop();
-    ll.detectAndRemoveLoop();
-    ll.display();
+    Node* result = ll.detectAndRemoveLoop();
+    if (result == NULL)
+        cout << "NO LOOP";
+    else
+        cout << "STARTING POINT = " << result->data;
     return 0;
     
 }
