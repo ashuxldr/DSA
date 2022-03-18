@@ -1,4 +1,4 @@
-// Remove duplicate element from unsorted Linked List
+// Remove duplicate element from sorted Linked List
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -69,41 +69,22 @@ public:
             curr = curr->next;
         }
     }
-    // USING TWO FOR LOOPS (NESTING)
-    void removeDuplicateUnsorted()
-{
-    Node *ptr1, *ptr2, *dup;
-    ptr1 = head;
-    while (ptr1 != NULL && ptr1->next != NULL) {
-        ptr2 = ptr1;
-        while (ptr2->next != NULL) {
-            if (ptr1->data == ptr2->next->data) {
-                dup = ptr2->next;
-                ptr2->next = ptr2->next->next;
-                delete (dup);
-            }
-            else 
-                ptr2 = ptr2->next;
+    void moveLastToFront()
+    {
+        if (head == NULL || (head)->next == NULL)
+            return;
+        Node *secLast = NULL;
+        Node *last = head;
+        while (last->next != NULL)
+        {
+            secLast = last;
+            last = last->next;
         }
-        ptr1 = ptr1->next;
+        secLast->next = NULL;
+        last->next = head;
+        head = last;
     }
-}
-    void removeDuplicatesHashing(){
-        unordered_set <int> numbers;
-        Node* curr = head;
-        Node* prev = NULL;
-        while(curr!=NULL){
-            if(numbers.find(curr->data) != numbers.end()){
-                prev->next = curr->next;
-                delete(curr);
-            }
-            else{ 
-                numbers.insert(curr->data);
-                prev = curr;
-            }
-        }
-    }
-    };
+};
 
 int main()
 {
@@ -116,7 +97,7 @@ int main()
     ll.insertNodeAtTail(5);
     ll.insertNodeAtTail(7);
     ll.insertNodeAtTail(8);
-    ll.removeDuplicatesHashing();
+    ll.moveLastToFront();
     ll.display();
     return 0;
 }
