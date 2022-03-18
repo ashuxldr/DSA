@@ -68,6 +68,43 @@ public:
             curr = curr->next;
         }
     }
+    Node* reverse(Node* itr)
+    {
+        Node *curr = itr;
+        Node *next = NULL;
+        Node *prev = NULL;
+
+        while (curr != NULL)
+        {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+    Node* addOneToNumber(Node* itr){
+    Node* res = itr;
+    Node *temp;
+    int carry = 1, sum;
+    while (head != NULL)
+    {
+        sum = carry + head->data;
+        carry = (sum >= 10)? 1 : 0;
+        sum = sum % 10;
+        head->data = sum;
+        temp = head;
+        head = head->next;
+    }
+    if (carry > 0)
+        temp->next = new Node(carry);
+    return res;
+}
+    Node* addOne(){
+    head = reverse(head);
+    head = addOneToNumber(head);
+    head = reverse(head);
+    }
 };
 
 int main()
@@ -81,7 +118,7 @@ int main()
     ll.insertNodeAtTail(6);
     ll.insertNodeAtTail(7);
     ll.insertNodeAtTail(8);
-    ll.deleteNode(3);
+    ll.addOne();
     ll.display();
     return 0;
 }
