@@ -4,7 +4,6 @@ using namespace std;
 void printNGE(int arr[], int n)
 {
 	stack<int> s;
-
 	s.push(arr[0]);
 
 	for (int i = 1; i < n; i++)
